@@ -1,0 +1,6 @@
+tensorflow-gpu==1.15.0
+nltk
+python-twitter
+emoji
+bs4
+requests

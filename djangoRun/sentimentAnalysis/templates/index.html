@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+
+  <!-- Authors -->
+<!-- Anshaj Goyal  -->
+<!-- Yash Satwani -->
+<!-- Shreya Sharma -->
+<!-- Kush Kumar -->
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <title>Twitter Sentiment Analysis</title>
+
+  </head>
+  <body style="  background-image: linear-gradient(skyblue, white);
+">
+
+
+
+
+
+<div class="container"> <center>  <h2> <span class="badge badge-warning"><span class="badge badge-info">Twitter</span> Sentiment Analysis</span> </center> </div>
+
+  <div class="container-sm ">
+
+
+
+
+  <form action="/" method="post">
+    {% csrf_token %}
+  <center><small>Enter you tweet data and click Analyze</small></center>
+  <div class="form-group d-flex justify-content-center">
+    <textarea style="max-width: 700px;" class="form-control" placeholder="Paste the tweet data here" id="exampleFormControlTextarea1" name="text" rows="4" style=""></textarea><br>
+  </div>
+ <center>   <button type="submit" class="btn btn-secondary"><i class="fa fa-cog" aria-hidden="true"> Analyze</i></button></center>
+</form>
+<hr>
+{% if result %}
+<div class="container">
+ <center>  <h2>Results</h2></center>
+
+  
+  
+  {% for t1,t2,at,sn,po,ht,sm,cm,sb,cb in result %}
+  <hr>
+  <div class="d-flex justify-content-center" style="font-family: 'Roboto', sans-serif;">
+  <div class="row" style="border: grey 1px solid;background-color: white;padding: 5px;padding-bottom:2px;border-radius: 4px;max-width: 600px;">
+    <h3><button type="button" class="btn btn-info" style="padding: 4px;"><i class="fa fa-twitter" aria-hidden="true"></i><span style="margin-left: 3px;font-size: 15px;">{{sn|title}}</span></button></h3><br /><hr>
+    <p style="font-size: 12px;">
+      {{t1}}
+    </p>
+    <span class="badge badge-warning">{{ht}}</span>
+     <span class="badge badge-info">{{cm}}</span>
+     <span class="badge badge-warning" style="background-color:green">Monkey {{sm|title}}</span>
+      <span class="badge badge-info">{{cb}} Bert</span>
+      <span class="badge badge-warning" style="background-color:green">Bert {{sb|title}}</span>
+      
+  </div>
+</div>
+</div>
+{% endfor %}
+{% endif %}
+{% if result1 %}
+<div class="container-fluid">
+      
+      <h2><strong><center class="display-6 my-7">Detailed Table</center></strong></h2>
+      <table class="table">
+          <tbody class="text-center bg-dark text-light">
+          <td><strong>Text</strong></td>
+          <td><strong>Clean Text</strong></td>
+          <td><strong>@Entities</strong></td>
+          <td><strong>Screen Name</strong></td>
+          <td><strong>Possible Organizations</strong></td>
+          <td><strong>Hashtags</strong></td>
+          <td><strong>Sentiment Monkey_Learn</strong></td>
+          <td><strong>Confidence Monkey Learn</strong></td>
+          <td><strong>Sentiment Bert</strong></td>
+          <td><strong>Confidence Bert</strong></td>
+          </tbody>
+          {% for q1,q2,q3,q4,q5,q6,q7,q8,q9,q10 in result1 %}
+          <tr class="text-center">
+            <td>{{q1|title}}</td>
+            <td>{{q2|title}}</td>
+              <td>{{q3}}</td>
+              <td>{{q4}}</td>
+              <td>{{q5}}</td>
+              <td>{{q6}}</td>
+              <td>{{q7}}</td>
+              <td>{{q8}}</td>
+              <td>{{q9}}</td>
+              <td>{{q10}}</td>
+            
+          </tr>
+          {% endfor %}
+      </table>
+      {% endif %}
+    </div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  </body>
+</html>
