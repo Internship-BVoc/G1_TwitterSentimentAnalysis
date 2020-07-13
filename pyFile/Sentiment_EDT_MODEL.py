@@ -8,59 +8,9 @@ Author 3 : Shreya Sharma
 Author 4: Kush Agarwal 
 
 Github Repo - https://github.com/Internship-BVoc/G1_TwitterSentimentAnalysis
-Colab Repo - https://colab.research.google.com/drive/124dpNho9i4-0b6aVoVoifI8eolutfdkD
+Colab Link - https://colab.research.google.com/drive/124dpNho9i4-0b6aVoVoifI8eolutfdkD
 """
 
-"""import pandas as pd;
-import nltk,spacy,re,emoji,pyLDAvis,requests,gensim,pyLDAvis,nerer,datetime,twitter,random,bs4,PIL,numpy,polyglot;
-from  nltk.tokenize import word_tokenize;
-from nltk.corpus import stopwords;
-from wordcloud import WordCloud,STOPWORDS;
-import matplotlib.pyplot as plt;
-import seaborn as sns;
-from gensim import models,corpora;
-from polyglot.text import Text, Word;
-import pyLDAvis.gensim;
-from time import time;
-from geopy.geocoders import Nominatim;
-from geopy.extra.rate_limiter import RateLimiter;
-from matplotlib import style;
-from sklearn.model_selection import train_test_split;
-from sklearn.feature_extraction.text import TfidfVectorizer;
-from sklearn.linear_model import LogisticRegression;
-from sklearn.metrics import *;
-from sklearn.ensemble import RandomForestClassifier;
-from sklearn.tree import DecisionTreeClassifier;
-from sklearn.feature_extraction.text import CountVectorizer;
-from sklearn import svm;
-from warnings import simplefilter;
-from sklearn.model_selection import GridSearchCV;
-from sklearn.exceptions import ConvergenceWarning;
-from nltk.corpus import sentiwordnet as swn;
-from gensim.models import Word2Vec;
-from tensorflow.keras.layers import Embedding;
-from tensorflow.keras.preprocessing.sequence import pad_sequences;
-from tensorflow.keras.models import Sequential;
-from tensorflow.keras.preprocessing.text import one_hot;
-from tensorflow.keras.layers import LSTM;
-from tensorflow.keras.layers import Dense;
-from tensorflow.keras.layers import Bidirectional;
-from tensorflow.keras.layers import Dropout;
-try: from twitter_creds import *
-except: pass;
-simplefilter("ignore", category=ConvergenceWarning)
-simplefilter("ignore", category=DeprecationWarning)
-polyglot.downloader.downloader.download("embeddings2.en")
-polyglot.downloader.downloader.download("ner2.en")
-nltk.download('sentiwordnet')
-nltk.download('punkt')
-nltk.download('stopwords')
-nltk.download('wordnet')
-nltk.download('words')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('maxent_ne_chunker')
-lemmatizer = nltk.stem.WordNetLemmatizer()
-sns.set_style('darkgrid')"""
 
 
 import platform
@@ -196,7 +146,7 @@ class downloadResources():
 		for _ in nltkDownload:
 			nltk.download(_)
 		for _ in polyglotDownload:
-			polyglot.downloader.downloader..download(_)
+			polyglot.downloader.downloader.download(_)
 
 
 class installModules():
@@ -557,9 +507,9 @@ class nltkEntity():
 		print("Fail Percentage {} columns".format(df['Entities_Extracted'].value_counts()[:1].sum()/df.shape[0]*100))
 		print("Call df.head(20)[['text','Entities_Extracted']] to view data")
 
-# Models
 
 
+Models
 df_target = df_data.airline_sentiment.replace({'positive':1,'neutral':0,"negative":-1})
 df_target.value_counts()
 tfidfconverter = TfidfVectorizer(max_features=2000, min_df=5, max_df=0.7, stop_words=stopwords.words('english'))  
@@ -695,62 +645,54 @@ if(int(input("SVM Word2Vec?? 0/1"))):
 	print(classification_report(Y_test,y_pred))  
 	print(accuracy_score(Y_test, y_pred))
 
-
 # SentiWordNet Approach
-
 # Found inaccurate in case of non-binary sentiment
 def score_calculate(tokenised_text,totScore = 0.0):
-  if not tokenised_text: return 0
-  for token in tokenised_text:
-    scoreList = swn.senti_synsets(token)
-    if not scoreList: continue
-    for score in scoreList: totScore = score.pos_score() - score.neg_score()
-  if totScore ==0 : return 0
-  if totScore > 0 : return 1
-  if totScore < 0 : return -1
-  # return [0 if totScore==0 else 1 if totScore>0 else -1][0] #Incase to write in 1 line
-score_calculate('plus added commercials experience tacky') # single check
+	if not tokenised_text: return 0
+	for token in tokenised_text:
+		scoreList = swn.senti_synsets(token)
+		if not scoreList: continue
+		for score in scoreList: totScore = score.pos_score() - score.neg_score()
+	if totScore ==0 : return 0
+	if totScore > 0 : return 1
+	if totScore < 0 : return -1
+# return [0 if totScore==0 else 1 if totScore>0 else -1][0] #Incase to write in 1 line
 
-for i in [df,df1,df_data]:
-  i['sentiScore'] = i.tokenised_text.apply(score_calculate)
+def applySentiScore():
+	for i in [df,df1,df_data]:
+		i['sentiScore'] = i.tokenised_text.apply(score_calculate)
 
-# Raw Data
-X_train, X_test, y_train, y_test = train_test_split(df['text'], df_target, train_size=0.2, random_state=30)
-pred_y = df.iloc[y_test.index].sentiScore
-score1 = accuracy_score(y_test, pred_y)
-print("Confusion Matrix")
-print(confusion_matrix(y_test, pred_y))
-print("\nAccuracy of SentiWordNet Approach: {}\n".format(accuracy_score(y_test, pred_y)))
-print(classification_report(y_test, pred_y))
+	print("Raw Data")
+	X_train, X_test, y_train, y_test = train_test_split(df['text'], df_target, train_size=0.2, random_state=30)
+	pred_y = df.iloc[y_test.index].sentiScore
+	score1 = accuracy_score(y_test, pred_y)
+	print("Confusion Matrix")
+	print(confusion_matrix(y_test, pred_y))
+	print("\nAccuracy of SentiWordNet Approach: {}\n".format(accuracy_score(y_test, pred_y)))
+	print(classification_report(y_test, pred_y))
 
-# Semi Processed Data
-X_train, X_test, y_train, y_test = train_test_split(df1['text'], df_target, train_size=0.2, random_state=30)
-pred_y = df1.iloc[y_test.index].sentiScore
-score2 = accuracy_score(y_test, pred_y)
-print("Confusion Matrix")
-print(confusion_matrix(y_test, pred_y))
-print("\nAccuracy of SentiWordNet Approach: {}\n".format(accuracy_score(y_test, pred_y)))
-print(classification_report(y_test, pred_y))
+	print("Semi Processed Data")
+	X_train, X_test, y_train, y_test = train_test_split(df1['text'], df_target, train_size=0.2, random_state=30)
+	pred_y = df1.iloc[y_test.index].sentiScore
+	score2 = accuracy_score(y_test, pred_y)
+	print("Confusion Matrix")
+	print(confusion_matrix(y_test, pred_y))
+	print("\nAccuracy of SentiWordNet Approach: {}\n".format(accuracy_score(y_test, pred_y)))
+	print(classification_report(y_test, pred_y))
 
-# Processed Data
-X_train, X_test, y_train, y_test = train_test_split(df_data['text'], df_target, train_size=0.2, random_state=30)
-pred_y = df_data.iloc[y_test.index].sentiScore
-score3 = accuracy_score(y_test, pred_y)
-print("Confusion Matrix")
-print(confusion_matrix(y_test, pred_y))
-print("\nAccuracy of SentiWordNet Approach: {}\n".format(accuracy_score(y_test, pred_y)))
-print(classification_report(y_test, pred_y))
-
-pd.DataFrame({'Score':[score1,score2,score3]},index=['Raw_Data','Semi_Processed_Data','Processed_Data'])
-
-
+	print("Processed Data")
+	X_train, X_test, y_train, y_test = train_test_split(df_data['text'], df_target, train_size=0.2, random_state=30)
+	pred_y = df_data.iloc[y_test.index].sentiScore
+	score3 = accuracy_score(y_test, pred_y)
+	print("Confusion Matrix")
+	print(confusion_matrix(y_test, pred_y))
+	print("\nAccuracy of SentiWordNet Approach: {}\n".format(accuracy_score(y_test, pred_y)))
+	print(classification_report(y_test, pred_y))
+	return pd.DataFrame({'Score':[score1,score2,score3]},index=['Raw_Data','Semi_Processed_Data','Processed_Data'])
 
 # Bucket List Usage to extract positive text from negative labeled text or vice versa
-
-!gdown --id nLeY_hx8DxOI8E31Ngynu4xQLHeq
-!gdown --id 13KKH4eZJedMjs4l0o_KQySMOb9olDIUs
-negWords = open("negative-words.txt", encoding = "ISO-8859-1").read().lower().split("\n")
-posWords = open("positive-words.txt", encoding = "ISO-8859-1").read().lower().split("\n")
+# !gdown --id nLeY_hx8DxOI8E31Ngynu4xQLHeq #incase you don't have the list just download them on notebook using these 2 lines
+# !gdown --id 13KKH4eZJedMjs4l0o_KQySMOb9olDIUs
 def calculateScoreFromBucketList(sentence):
   sentence = word_tokenize(sentence.lower())
   negArray=[]
@@ -762,8 +704,12 @@ def calculateScoreFromBucketList(sentence):
       posArray.append(word)
   return [posArray,negArray]
 
-df_data['posNegScore'] = df_data.text.apply(lambda x: calculateScoreFromBucketList(x))
-df_data[['text','airline_sentiment','posNegScore']].head(20)
+def applyBucketList():
+	global negWords,posWords
+	negWords = open("negative-words.txt", encoding = "ISO-8859-1").read().lower().split("\n")
+	posWords = open("positive-words.txt", encoding = "ISO-8859-1").read().lower().split("\n")
+	df_data['posNegScore'] = df_data.text.apply(lambda x: calculateScoreFromBucketList(x))
+	return df_data[['text','airline_sentiment','posNegScore']].head(20)
 
 """SentiWordNet Approach to find positive and negative word either of the text and their +,- score"""
 
@@ -779,141 +725,126 @@ def synsetPosNegScore(text):
       negScore+= score.neg_score()
     return [posScore,negScore]
 
-df_data['sentiWordNetPosNegScore'] = df_data.text.apply(synsetPosNegScore)
-df_data[['text','airline_sentiment','sentiWordNetPosNegScore']].head(20)
+def applySentiForScoreOfOppLabel():
+	df_data['sentiWordNetPosNegScore'] = df_data.text.apply(synsetPosNegScore)
+	df_data[['text','airline_sentiment','sentiWordNetPosNegScore']].head(20)
+	return 
 
-"""Deep Learning - #1
-Bidirectional Encoder Representations from Transformers (BERT) Using Ktrain
-"""
+# Deep Learning - #1
+# Bidirectional Encoder Representations from Transformers (BERT) Using Ktrain
 
-import ktrain,random
-from ktrain import text
-import tensorflow as tf
-arr = ["the service is good", "The cost is expensive and customer service sucked",
-       "the flight was late but prices are ok","service is fine and cost is also fine"]
-arr1 = [cleanSentence(text) for text in arr]
-predictor.predict(arr)
+# pip install ktrain
+def bertKtrain():
+	global predictor
+	import ktrain,random
+	from ktrain import text
+	import tensorflow as tf
+	arr = ["the service is good", "The cost is expensive and customer service sucked","the flight was late but prices are ok","service is fine and cost is also fine"]
+	arr1 = [cleanSentence(text) for text in arr]
+	predictor.predict(arr)
 
-indexList = list(df_data.index)
-random.shuffle(indexList)
-eightList = [indexList[i] for i in range(0,len(indexList)*80//100)]
-data_train = df_data.iloc[eightList]
-twentyList = [indexList[i] for i in range(len(indexList)*80//100,len(indexList))]
-data_test = df_data.iloc[twentyList]
-print(data_train.shape[0]+data_test.shape[0],df_data.shape)
-(X_train,y_train), (X_text,y_test), preprocess = text.texts_from_df(data_train,'text','airline_sentiment',data_test,maxlen=100,preprocess_mode='bert')
-model = text.text_classifier('bert',(X_train,y_train), preproc= preprocess,multilabel=False)
-learner = ktrain.get_learner(model,(X_train,y_train),val_data=(X_text,y_test),batch_size=6)
+	indexList = list(df_data.index)
+	random.shuffle(indexList)
+	eightList = [indexList[i] for i in range(0,len(indexList)*80//100)]
+	data_train = df_data.iloc[eightList]
+	twentyList = [indexList[i] for i in range(len(indexList)*80//100,len(indexList))]
+	data_test = df_data.iloc[twentyList]
+	print(data_train.shape[0]+data_test.shape[0],df_data.shape)
+	(X_train,y_train), (X_text,y_test), preprocess = text.texts_from_df(data_train,'text','airline_sentiment',data_test,maxlen=100,preprocess_mode='bert')
+	model = text.text_classifier('bert',(X_train,y_train), preproc= preprocess,multilabel=False)
+	learner = ktrain.get_learner(model,(X_train,y_train),val_data=(X_text,y_test),batch_size=6)
+	learner.lr_find()
+	learner.lr_plot()
+	learner.fit_onecycle(lr=1e-3,epochs=1) #learning rate 1e-3/1e-6
+	predictor = ktrain.get_predictor(learner.model,preprocess)
+	predictor.predict(arr)
+	return "Use predictor.predict([]) to predict in future"
 
-learner.lr_find()
-learner.lr_plot()
 
-# 10^-3
-learner.fit_onecycle(lr=1e-3,epochs=1)
-predictor = ktrain.get_predictor(learner.model,preprocess)
-predictor.save('/content')
-# predictor = ktrain.get_predictor('/content/tf_model.h5','/content/tf_model.preproc')
+# Deep Learning #2 Bert using Ktrain with Data Balancing
+def bertKtrainDataBalancing():
+	posDataFrame = df_data[df_data.airline_sentiment=="positive"].airline_sentiment
+	negDataFrame = df_data[df_data.airline_sentiment=="negative"].airline_sentiment
+	neutralDataFrame = df_data[df_data.airline_sentiment=="neutral"].airline_sentiment
+	posArray,negArray,neutArray = list(posDataFrame.index),list(negDataFrame.index),list(neutralDataFrame.index)
+	random.shuffle(negArray)#,random.shuffle(neutArray),random.shuffle(posArray)
+	finalDf = pd.concat([df_data.iloc[posArray[:2000]],df_data.iloc[negArray[:2000]],df_data.iloc[neutArray[:2000]]])
+	print(finalDf.airline_sentiment.value_counts())
+	indexList_2 = list(finalDf.index)
+	random.shuffle(indexList_2)
+	eightList_2 = [indexList_2[i] for i in range(0,len(indexList_2)*80//100)]
+	data_train_2 = df_data.iloc[eightList_2]
+	twentyList_2 = [indexList_2[i] for i in range(len(indexList_2)*80//100,len(indexList_2))]
+	data_test_2 = df_data.iloc[twentyList_2]
+	print(data_train_2.shape[0]+data_test_2.shape[0],finalDf.shape)
+	print(finalDf.airline_sentiment.value_counts())
+	(X_train_2,y_train_2), (X_text_2,y_test_2), preprocess2 = text.texts_from_df(data_train_2,'text','airline_sentiment',data_test_2,maxlen=50,preprocess_mode='bert')
+	model2 = text.text_classifier('bert',(X_train_2,y_train_2), preproc= preprocess2,multilabel=True)
+	learner2 = ktrain.get_learner(model2,(X_train_2,y_train_2),val_data=(X_text_2,y_test_2),batch_size=6)
+	learner2.lr_find()
+	learner2.lr_plot() #1e-6/1e-3
+	learner2.fit_onecycle(lr=1e-6,epochs=1)
+	predictor2 = ktrain.get_predictor(learner2.model,preprocess2)
+	print("Normal Data : ",predictor2.predict(arr))
+	print("Clean Data : ",predictor2.predict(arr1))
 
-"""#Deep Learning #2 Bert using Ktrain with Data Balancing"""
+# RNN implementation with LSTM
+def rnnLstm():
+	onehot_repr=[one_hot(words,5000)for words in df_data['Numberless_text'].tolist()] 
+	embedded_docs=pad_sequences(onehot_repr,padding='pre',maxlen=20)
+	model1=Sequential()
+	model1.add(Embedding(5000,40,input_length=20))
+	model1.add(Bidirectional(LSTM(100)))
+	model1.add(Dropout(0.3))
+	model1.add(Dense(1,activation='sigmoid'))
+	model1.compile(loss='sparse_categorical_crossentropy',optimizer='adam',metrics=['accuracy'])
+	print(model1.summary())
+	X_final,y_final=numpy.array(embedded_docs),numpy.array(df_target)
+	X_train, X_test, y_train, y_test = train_test_split(X_final, y_final, test_size=0.25, random_state=30,stratify =y_final)
+	model1.fit(X_train,y_train,validation_data=(X_test,y_test),epochs=1,batch_size=64)
+	model1.fit(X_train,y_train,validation_data=(X_test,y_test),epochs=20,batch_size=64)
+	y_pred=model1.predict_classes(X_test)
+	print(confusion_matrix(y_test,y_pred))
+	print(accuracy_score(y_test,y_pred))
+	return
 
-posDataFrame = df_data[df_data.airline_sentiment=="positive"].airline_sentiment
-negDataFrame = df_data[df_data.airline_sentiment=="negative"].airline_sentiment
-neutralDataFrame = df_data[df_data.airline_sentiment=="neutral"].airline_sentiment
-posArray,negArray,neutArray = list(posDataFrame.index),list(negDataFrame.index),list(neutralDataFrame.index)
-random.shuffle(negArray)#,random.shuffle(neutArray),random.shuffle(posArray)
-finalDf = pd.concat([df_data.iloc[posArray[:2000]],df_data.iloc[negArray[:2000]],df_data.iloc[neutArray[:2000]]])
-print(finalDf.airline_sentiment.value_counts())
-indexList_2 = list(finalDf.index)
-random.shuffle(indexList_2)
-eightList_2 = [indexList_2[i] for i in range(0,len(indexList_2)*80//100)]
-data_train_2 = df_data.iloc[eightList_2]
-twentyList_2 = [indexList_2[i] for i in range(len(indexList_2)*80//100,len(indexList_2))]
-data_test_2 = df_data.iloc[twentyList_2]
-print(data_train_2.shape[0]+data_test_2.shape[0],finalDf.shape)
-print(finalDf.airline_sentiment.value_counts())
-(X_train_2,y_train_2), (X_text_2,y_test_2), preprocess2 = text.texts_from_df(data_train_2,'text','airline_sentiment',data_test_2,maxlen=50,preprocess_mode='bert')
-model2 = text.text_classifier('bert',(X_train_2,y_train_2), preproc= preprocess2,multilabel=True)
-learner2 = ktrain.get_learner(model2,(X_train_2,y_train_2),val_data=(X_text_2,y_test_2),batch_size=6)
+# Deep Learning #3 Bert using BertLibrary
+# pip install BertLibrary tensorflow-gpu==1.15.0
+def bertWithBertLibrary():
+	print("Please download https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-12.zip")
+	print("Please Unzip it")
+	if not input("Downloaded?? 1/0"): return
+	global ft_model,ft_trainer,ft_evaluator,predictor
+	from BertLibrary import BertFTModel
+	TRAIN_SIZE = 0.80
+	VAL_SIZE = 0.05
+	label_text = df_data[['airline_sentiment','text']]
+	label_text['airline_sentiment'] = label_text.airline_sentiment.replace({'positive':1,'neutral':0,"negative":-1})
+	df_train_val, df_test = train_test_split(label_text, test_size=1-TRAIN_SIZE-VAL_SIZE, random_state=30)
+	df_train, df_val = train_test_split(df_train_val, test_size=VAL_SIZE / (VAL_SIZE + TRAIN_SIZE), random_state=30)
+	print("TRAIN size:", len(df_train))
+	print("VAL size:", len(df_val))
+	print("TEST size:", len(df_test))
+	ft_model = BertFTModel( model_dir='uncased_L-12_H-768_A-12',ckpt_name="bert_model.ckpt",labels=['0','1','-1'],lr=1e-05,num_train_steps=30000,\
+		num_warmup_steps=1000,ckpt_output_dir='output',save_check_steps=1000,do_lower_case=False,max_seq_len=50,batch_size=32,)
+	ft_trainer =  ft_model.get_trainer()
+	ft_evaluator = ft_model.get_evaluator()
+	if not os.path.exists("dataset"): os.mkdir("dataset")
+	df_train.sample(frac=1.0).reset_index(drop=True).to_csv('dataset/train.tsv', sep='\t', index=None, header=None)
+	df_val.to_csv('dataset/dev.tsv', sep='\t', index=None, header=None)
+	df_test.to_csv('dataset/test.tsv', sep='\t', index=None, header=None)
+	ft_trainer.train_from_file('dataset',steps=14000)
+	ft_evaluator.evaluate_from_file('dataset') 
+	predictor =  ft_model.get_predictor()
+	prediction = list(predictor(arr))
+	print("# Regular Text without features extracted")
+	for i in range(len(prediction)):
+  		print(arr[i],["neutral" if list(prediction[i]).index(max(list(prediction[i]))) == 0 else "positive" if (list(prediction[i]).index(max(list(prediction[i]))) == 1) else "negative"  ][0],sep=" : ")
+	prediction = list(predictor(arr1))
+	print("Processed and clean text")
+	for i in range(len(prediction)):
+  		print(arr1[i],["neutral" if list(prediction[i]).index(max(list(prediction[i]))) == 0 else "positive" if (list(prediction[i]).index(max(list(prediction[i]))) == 1) else "negative"  ][0],sep=" : ")
 
-learner2.lr_find()
-learner2.lr_plot() #1e-6/1e-3
-
-learner2.fit_onecycle(lr=1e-6,epochs=1)
-predictor2 = ktrain.get_predictor(learner2.model,preprocess2)
-
-# normal data
-predictor2.predict(arr)
-
-# clean data
-predictor2.predict(arr1)
-
-"""#RNN implementation with LSTM"""
-onehot_repr=[one_hot(words,5000)for words in df_data['Numberless_text'].tolist()] 
-embedded_docs=pad_sequences(onehot_repr,padding='pre',maxlen=20)
-model1=Sequential()
-model1.add(Embedding(5000,40,input_length=20))
-model1.add(Bidirectional(LSTM(100)))
-model1.add(Dropout(0.3))
-model1.add(Dense(1,activation='sigmoid'))
-model1.compile(loss='sparse_categorical_crossentropy',optimizer='adam',metrics=['accuracy'])
-print(model1.summary())
-X_final,y_final=numpy.array(embedded_docs),numpy.array(df_target)
-X_train, X_test, y_train, y_test = train_test_split(X_final, y_final, test_size=0.25, random_state=30,stratify =y_final)
-model1.fit(X_train,y_train,validation_data=(X_test,y_test),epochs=1,batch_size=64)
-model1.fit(X_train,y_train,validation_data=(X_test,y_test),epochs=20,batch_size=64)
-y_pred=model1.predict_classes(X_test)
-print(confusion_matrix(y_test,y_pred))
-print(accuracy_score(y_test,y_pred))
-
-"""#Deep Learning #3 Bert using BertLibrary"""
-
-!wget https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-12.zip
-!unzip uncased_L-12_H-768_A-12.zip
-!pip install BertLibrary
-!pip install tensorflow-gpu==1.15.0
-
-from BertLibrary import BertFTModel
-TRAIN_SIZE = 0.80
-VAL_SIZE = 0.05
-label_text = df_data[['airline_sentiment','text']]
-label_text['airline_sentiment'] = label_text.airline_sentiment.replace({'positive':1,'neutral':0,"negative":-1})
-dataset_count = len(label_text)
-
-df_train_val, df_test = train_test_split(label_text, test_size=1-TRAIN_SIZE-VAL_SIZE, random_state=30)
-df_train, df_val = train_test_split(df_train_val, test_size=VAL_SIZE / (VAL_SIZE + TRAIN_SIZE), random_state=30)
-
-print("TRAIN size:", len(df_train))
-print("VAL size:", len(df_val))
-print("TEST size:", len(df_test))
-ft_model = BertFTModel( model_dir='uncased_L-12_H-768_A-12',ckpt_name="bert_model.ckpt",
-                       labels=['0','1','-1'],lr=1e-05,num_train_steps=30000,
-                       num_warmup_steps=1000,ckpt_output_dir='output',save_check_steps=1000,
-                       do_lower_case=False,max_seq_len=50,batch_size=32,)
-ft_trainer =  ft_model.get_trainer()
-ft_evaluator = ft_model.get_evaluator()
-
-!mkdir dataset
-df_train.sample(frac=1.0).reset_index(drop=True).to_csv('dataset/train.tsv', sep='\t', index=None, header=None)
-df_val.to_csv('dataset/dev.tsv', sep='\t', index=None, header=None)
-df_test.to_csv('dataset/test.tsv', sep='\t', index=None, header=None)
-! cd dataset && ls
-
-ft_trainer.train_from_file('dataset',steps=14000)
-
-ft_evaluator.evaluate_from_file('dataset') 
-predictor =  ft_model.get_predictor()
-
-# Regular Text without features extracted
-prediction = list(predictor(arr))
-for i in range(len(prediction)):
-  print(arr[i],["neutral" if list(prediction[i]).index(max(list(prediction[i]))) == 0 else "positive" if (list(prediction[i]).index(max(list(prediction[i]))) == 1) else "negative"  ][0],sep=" : ")
-
-# Processed and clean text bitch...
-prediction = list(predictor(arr1))
-for i in range(len(prediction)):
-  print(arr1[i],["neutral" if list(prediction[i]).index(max(list(prediction[i]))) == 0 else "positive" if (list(prediction[i]).index(max(list(prediction[i]))) == 1) else "negative"  ][0],sep=" : ")
-
-k = list(predictor(arr1))
 
 
 
