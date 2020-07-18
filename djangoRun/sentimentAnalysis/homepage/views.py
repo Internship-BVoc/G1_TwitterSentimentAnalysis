@@ -1,7 +1,13 @@
+"""
+Author_1 - Anshaj Goyal
+Author_2 - Yash Satwani
+"""
+
 from django.shortcuts import render, redirect
 import requests
 from django.views import View
 from functions import *
+
 
 class work():
     def __init__(self):

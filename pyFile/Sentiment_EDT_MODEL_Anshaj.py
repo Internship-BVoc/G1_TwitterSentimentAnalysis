@@ -5,7 +5,6 @@ Title - Twitter Sentiment Analysis
 Author 1 : Anshaj Goyal
 Author 2 : Yash Satwani
 Author 3 : Shreya Sharma
-Author 4: Kush Agarwal 
 
 Github Repo - https://github.com/Internship-BVoc/G1_TwitterSentimentAnalysis
 Colab Link - https://colab.research.google.com/drive/124dpNho9i4-0b6aVoVoifI8eolutfdkD
