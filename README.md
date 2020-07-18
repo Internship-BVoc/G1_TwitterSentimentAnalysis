@@ -6,7 +6,7 @@ The project was completed under Mr. Akshay Gugnani under a timespan of 30 Days
 
 <strong>Group Members :-</strong><br><br>
 <strong><a href = "https://www.linkedin.com/in/anshaj-g-0588b0122/">Anshaj Goyal</a></strong><br>
-<strong><Yash Satwani</strong><br>
+<strong>Yash Satwani</strong><br>
 <strong>Shreya Sharma</strong><br>
 <strong>Kush Kumar</strong><br>
 <strong>Deepak</strong><br>
