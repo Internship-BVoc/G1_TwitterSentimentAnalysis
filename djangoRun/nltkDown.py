@@ -1,3 +1,4 @@
+import nltk
 nltk.download('sentiwordnet')
 nltk.download('punkt')
 nltk.download('stopwords')

@@ -4,15 +4,16 @@ Author_2 - Yash Satwani
 """
 
 from django.shortcuts import render, redirect
-import requests
+import requests,os
 from django.views import View
 from functions import *
-
+path = os.path.abspath("../")+"/optimized_model/"
+# Put the absolute path for the extracted folder /optimized_model/ from model.zip
 
 class work():
     def __init__(self):
         self.counter = 0
-        self.model = instantiateModel()
+        self.model = instantiateModel(path)
 
     def index(self,request):
         text = request.POST.get('text')
